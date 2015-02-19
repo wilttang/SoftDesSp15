@@ -185,6 +185,7 @@ def coding_strand_to_AA(dna):
         >>> coding_strand_to_AA("ATGCCCGCTTT")
         'MPA'
     """
+<<<<<<< HEAD
     amino_acid_string = ''
     dna_split = [dna[i:i+3] for i in range(0,len(dna),3)]
     for i in range(len(dna_split)):
@@ -195,12 +196,16 @@ def coding_strand_to_AA(dna):
 def gene_finder(dna):
     """ Returns the amino acid sequences coded by all genes that have an ORF
         larger than the specified threshold.
+=======
+    # TODO: implement this
+    pass
+
+def gene_finder(dna):
+    """ Returns the amino acid sequences that are likely coded by the specified dna
+>>>>>>> b0aafddda8e55dc5bcad47f06e0e175a5fee679e
         
         dna: a DNA sequence
-        threshold: the minimum length of the ORF for it to be considered a valid
-                   gene.
-        returns: a list of all amino acid sequences whose ORFs meet the minimum
-                 length specified.
+        returns: a list of all amino acid sequences coded by the sequence dna.
     """
     final_list = []
     all_possible_ORFS = find_all_ORFs_both_strands(dna)
