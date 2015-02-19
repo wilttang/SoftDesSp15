@@ -1,32 +1,57 @@
-""" TODO: Put your header comment here """
+""" Wilson's Art Generator Using Recursion! """
 import math
 import random
 from PIL import Image
+
+
 
 def build_random_function(min_depth, max_depth):
     """ Builds a random function of depth at least min_depth and depth
         at most max_depth (see assignment writeup for definition of depth
         in this context)
+
         min_depth: the minimum depth of the random function
         max_depth: the maximum depth of the random function
         returns: the randomly generated function represented as a nested list
                  (see assignment writeup for details on the representation of
                  these functions)
-    """  
-    random_number = random.randint(0,7)
-    possible_functions = ['prod','avg','cos_pi','sin_pi','x','y','cube','root']
-    final_list = []
-    final_list.append( possible_functions[random_number] )
-    if min_depth == 1:
-        pass
-    elif possible_functions[random_number] == 'prod' or possible_functions[random_number] == 'avg':
-        final_list.append( build_random_function(min_depth-1,max_depth-1))
-        final_list.append( build_random_function(min_depth-1,max_depth-1))
-    else:
-        final_list.append( build_random_function(min_depth-1,max_depth-1))
-    
-    return final_list
+    """ 
+    depth = random.randint(min_depth,max_depth)
+    return recursive_build(depth)
+    #randomly stop between min and max depth 
+    # possible_functions = ['prod','avg','cos_pi','sin_pi','cube','root','x','y']
+    # if max_depth == 1:
+    #     return [possible_functions[random.randint(6,7)]]
+    # if min_depth < 2:
+    #     function = possible_functions[random.randint(0,7)]
+    #     print function
+    #     if function == 'prod' or function == 'avg':
+    #         return [function, build_random_function(min_depth-1,max_depth-1),build_random_function(min_depth-1,max_depth-1)]
+    #     elif function == 'sin_pi' or function == 'cos_pi' or function == 'cube' or function == 'root':
+    #         return [function, build_random_function(min_depth-1,max_depth-1) ]
+    #     elif function == 'x' or function =='y':
+    #         return [function]
+    # else:
+    #     function  = possible_functions[random.randint(0,5)]
+    #     print function
+    #     if function == 'prod' or function == 'avg':
+    #         return [function, build_random_function(min_depth-1,max_depth-1),build_random_function(min_depth-1,max_depth-1)]
+    #     else:
+    #         return [function, build_random_function(min_depth-1,max_depth-1) ]
 
+def recursive_build(depth):
+        #randomly stop between min and max depth 
+    possible_functions = ['prod','avg','cos_pi','sin_pi','cube','root','x','y']
+    if depth == 1:
+        return [possible_functions[random.randint(6,7)]]
+    else:
+        function  = possible_functions[random.randint(0,5)]
+        if function == 'prod' or function == 'avg':
+            return [function, recursive_build(depth-1),recursive_build(depth-1)]
+        else:
+            return [function, recursive_build(depth-1) ]
+
+#does math
 def evaluate_random_function(f, x, y):
     """ Evaluate the random function f with inputs x,y
         Representation of the function f is defined in the assignment writeup
@@ -43,53 +68,32 @@ def evaluate_random_function(f, x, y):
         >>> evaluate_random_function( [ 'prod', ['x'] , ['y'] ], 3 ,2 )
         6
         >>> evaluate_random_function( ['sin_pi' , ['prod' , ['x'] , ['y'] ] ], 0,0)
-        0.0 
-        >>> evaluate_random_function( ['x', [ 'prod', ['sin_pi'], ['cube'] ] ], 0,0 )
+        0.0
+        >>> evaluate_random_function( ['cube' , ['prod' , ['x'] , ['y']  ] ], 0,0 )
+        0
+        >>> evaluate_random_function( ['prod', ['cube', ['x']], ['prod', ['x'], ['x']]], 0, 0)
         0
     """
-    # if f[0] == 'x':
-    #     return x
-    # if f[0] == 'y': 
-    #     return y
-    # if f[0] == 'prod':
-    #     a = evaluate_random_function(f[1],x,y)
-    #     b = evaluate_random_function(f[2],x,y)
-    #     return a*b
-    # if f[0] == 'avg':
-    #     a = evaluate_random_function(f[1],x,y)
-    #     b = evaluate_random_function(f[2],x,y)
-    #     return 0.5 * (a + b)
-    # if f[0] == 'cos_pi':
-    #     return math.cos( math.pi * evaluate_random_function(f[1],x,y) )
-    # if f[0] == 'sin_pi':
-    #     return math.sin( math.pi * evaluate_random_function(f[1],x,y) )
-    # if f[0] == 'square':
-    #     return evaluate_random_function(f[1],x,y)**2
-    # if f[0] == "root":
-    #     return evaluate_random_function( f[1], x, y )**0.5
-    if len(f) == 1:
-        if f[0] == 'x':
-            return x
-        elif f[0] == 'y':
-            return y
-        elif f[0] == 'prod':
-            return x*y
-        elif f[0] == 'avg':
-            return (x+y)/2
-    elif len(f) == 2: 
-        if f[0] == 'sin_pi':
-            return math.sin( math.pi*evaluate_random_function(f[1],x,y) )
-        elif f[0] == 'cos_pi':
-            return math.cos( math.pi*evaluate_random_function(f[1],x,y) )
-        elif f[0] =='cube':
-            return x**3
-        elif f[0] =='root':
-            return x**0.5
-    else: 
-        if f[0] == 'prod':
-            return evaluate_random_function(f[1],x,y) * evaluate_random_function(f[2],x,y)
-        elif f[0] == 'avg':
-            return (evaluate_random_function(f[1],x,y) + evaluate_random_function(f[2],x,y))/2
+    if f[0] == 'x':
+        return x
+    if f[0] == 'y': 
+        return y
+    if f[0] == 'prod':
+        a = evaluate_random_function(f[1],x,y)
+        b = evaluate_random_function(f[2],x,y)
+        return a*b
+    if f[0] == 'avg':
+        a = evaluate_random_function(f[1],x,y)
+        b = evaluate_random_function(f[2],x,y)
+        return 0.5 * (a + b)
+    if f[0] == 'cos_pi':
+        return math.cos( math.pi * evaluate_random_function(f[1],x,y) )
+    if f[0] == 'sin_pi':
+        return math.sin( math.pi * evaluate_random_function(f[1],x,y) )
+    if f[0] == 'cube':
+        return evaluate_random_function(f[1],x,y)**3
+    if f[0] == "root":
+        return evaluate_random_function(f[1], x, y )**2
     # TODO: implement this
     pass
 
@@ -201,11 +205,8 @@ if __name__ == '__main__':
     # Create some computational art!
     # TODO: Un-comment the generate_art function call after you
     #       implement remap_interval and evaluate_random_function
-    #generate_art("myart.png")
+    generate_art("myart12.png")
 
     # Test that PIL is installed correctly
     # TODO: Comment or remove this function call after testing PIL install
     #test_image("noise.png")
-
-
-print evaluate_random_function(build_random_function(7,9),0.5,0.5)
