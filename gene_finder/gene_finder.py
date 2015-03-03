@@ -40,6 +40,7 @@ def get_complement(nucleotide):
     elif nucleotide == 'G':
          return 'C'
     else:
+        return 'G'
 
 def get_reverse_complement(dna):
     """ Computes the reverse complementary sequence of DNA for the specfied DNA
@@ -89,6 +90,7 @@ def rest_of_ORF(dna):
     if inidicies > 0:
         return dna[0:x*3]
     else: 
+        return dna
 
 def find_all_ORFs_oneframe(dna):
     """ Finds all non-nested open reading frames in the given DNA sequence and returns
@@ -185,7 +187,6 @@ def coding_strand_to_AA(dna):
         >>> coding_strand_to_AA("ATGCCCGCTTT")
         'MPA'
     """
-<<<<<<< HEAD
     amino_acid_string = ''
     dna_split = [dna[i:i+3] for i in range(0,len(dna),3)]
     for i in range(len(dna_split)):
@@ -196,14 +197,12 @@ def coding_strand_to_AA(dna):
 def gene_finder(dna):
     """ Returns the amino acid sequences coded by all genes that have an ORF
         larger than the specified threshold.
-=======
+    """
     # TODO: implement this
     pass
 
-def gene_finder(dna):
-    """ Returns the amino acid sequences that are likely coded by the specified dna
->>>>>>> b0aafddda8e55dc5bcad47f06e0e175a5fee679e
-        
+def gene_finder(dna): 
+    """Returns the amino acid sequences that are likely coded by the specified dna     
         dna: a DNA sequence
         returns: a list of all amino acid sequences coded by the sequence dna.
     """
@@ -221,4 +220,8 @@ if __name__ == "__main__":
     doctest.testmod()
     
 dna = load_seq("./data/X73525.fa")
-print gene_finder(dna)
+text_file = open('salmonella.txt','w')
+for i in gene_finder(dna):
+    text_file.write(i)
+    text_file.write("\n")
+text_file.close()
