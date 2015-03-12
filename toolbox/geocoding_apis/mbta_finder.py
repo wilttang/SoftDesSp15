@@ -10,6 +10,7 @@ https://sites.google.com/site/sd15spring/home/project-toolbox/geocoding-and-web-
 import urllib   # urlencode function
 import urllib2  # urlopen function (better than urllib version)
 import json
+from pprint import  pprint
 
 
 # Useful URLs (you need to add the appropriate parameters for your requests)
@@ -25,6 +26,10 @@ def get_json(url):
     Given a properly formatted URL for a JSON web API request, return
     a Python JSON object containing the response to that request.
     """
+    f = urllib2.urlopen(url)
+    response_text = f.read()
+    response_data = json.loads(response_text)
+    return json_obj
     pass
 
 
@@ -36,6 +41,8 @@ def get_lat_long(place_name):
     See https://developers.google.com/maps/documentation/geocoding/
     for Google Maps Geocode API URL formatting requirements.
     """
+    
+    json = get_json
     pass
 
 
