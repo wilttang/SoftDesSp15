@@ -12,17 +12,23 @@ def get_word_list(file_name):
 		All words are converted to lower case.
 	"""
 	word_list = []
+
+	#opens text file
 	f = open(file_name,'r')
 	lines = f.readlines()
+
+	#skips past the header of the gutenberg book
 	curr_line = 0
 	while lines[curr_line].find('START OF THIS PROJECT GUTENBERG EBOOK') == -1:
 		curr_line += 1
 	lines = lines[curr_line+1:]
-	
-	for word in lines.split():
-		word = word.strip(string.punctuation + string.whitespace)
-		word = word.lower()
-		word_list.append(word)
+
+	#goes through line by line and creads a list of all words
+	for line in lines:
+		for word in line.split():
+			word = word.strip(string.punctuation + string.whitespace)
+			word = word.lower()
+			word_list.append(word)
 	return word_list
 
 def create_histogram(word_list):
@@ -44,18 +50,12 @@ def get_top_n_words(word_list, n):
 		returns: a list of n most frequently occurring words ordered from most
 				 frequently to least frequentlyoccurring
 	"""
-
-	t = []
-	final_list = []
 	hist = create_histogram(word_list)
-	
-	#goes through the histogram and sorts in greatest to least
-	for key, value in hist.items():
-		t.append(key)
-	t.sort(reverse = False)
-	for word in t[0:n]:
-		final_list.append(word)
-	return final_list
 
-get_word_list(filename)
-print get_top_n_words(['balls','balls','hello','hello','hi'],2)
+	#sort the dictionary from most frequent to least frequent
+	ordered_by_frequency = sorted(hist, key = hist.get, reverse = True)
+	
+	return ordered_by_frequency
+
+words_list = get_word_list(filename)
+print get_top_n_words(words_list,100)
